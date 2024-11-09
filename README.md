@@ -118,16 +118,16 @@ CyberScore là một ứng dụng mạnh mẽ, sử dụng trí tuệ nhân tạ
 Dưới đây là một số ảnh chụp màn hình của ứng dụng:
 
 ### Màn Hình Chính
-![Screenshot 1](assets/screenshots/Screenshot_1.jpg)
+![Screenshot 1](assets/screenshots/Screenshort_1.jpg) 
 
 ### Màn Hình Nhập Dữ Liệu
-![Screenshot 2](assets/screenshots/Screenshot_2.jpg)
+![Screenshot 2](assets/screenshots/Screenshort_2.jpg)
 
 ### Màn Hình Dự Đoán
-![Screenshot 3](assets/screenshots/Screenshot_3.jpg)
+![Screenshot 3](assets/screenshots/Screenshort_3.jpg)
 
 ### Màn Hình Kết Quả
-![Screenshot 4](assets/screenshots/Screenshot_4.jpg)
+![Screenshot 4](assets/screenshots/Screenshort_4.jpg)
 
 ---
 
