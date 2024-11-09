@@ -20,6 +20,32 @@ CyberScore là một ứng dụng mạnh mẽ, sử dụng trí tuệ nhân tạ
 
 ---
 
+## 🖼️ Screenshot - Ảnh chụp màn hình
+Dưới đây là một số ảnh chụp màn hình của ứng dụng:
+
+### Màn Hình Chính
+![Screenshot 1](assets/screenshots/Screenshort_1.jpg) 
+
+### Màn Hình Nhập Dữ Liệu
+![Screenshot 2](assets/screenshots/Screenshort_2.jpg)
+
+### Màn Hình Dự Đoán
+![Screenshot 3](assets/screenshots/Screenshort_3.jpg)
+
+### Màn Hình Kết Quả
+![Screenshot 4](assets/screenshots/Screenshort_4.jpg)
+---
+
+## 👥 Tác Giả:
+
+- **Lê Tuấn Anh (2274801030005)**
+- **Trần Tuấn Anh (2274801030009)**
+- **Bùi Thảo Duyên (2274801030026)**
+
+Lớp: **K28KTPM03 - Trường đại học Văn Lang** 🎓
+
+---
+
 ## 🛠️ Công Nghệ Sử Dụng:
 
 ### Frontend:
@@ -112,30 +138,4 @@ CyberScore là một ứng dụng mạnh mẽ, sử dụng trí tuệ nhân tạ
 - Đảm bảo file model AI (**decision_tree_model.pkl**) đã nằm trong thư mục `backend/models/`.
 - Kiểm tra URL API trong frontend (mặc định là `http://localhost:5000`) và đảm bảo nó phù hợp với cấu hình backend.
 
----
-
-## 🖼️ Screenshot - Ảnh chụp màn hình
-Dưới đây là một số ảnh chụp màn hình của ứng dụng:
-
-### Màn Hình Chính
-![Screenshot 1](assets/screenshots/Screenshort_1.jpg) 
-
-### Màn Hình Nhập Dữ Liệu
-![Screenshot 2](assets/screenshots/Screenshort_2.jpg)
-
-### Màn Hình Dự Đoán
-![Screenshot 3](assets/screenshots/Screenshort_3.jpg)
-
-### Màn Hình Kết Quả
-![Screenshot 4](assets/screenshots/Screenshort_4.jpg)
-
----
-
-## 👥 Tác Giả:
-
-- **Lê Tuấn Anh (2274801030005)**
-- **Trần Tuấn Anh (2274801030009)**
-- **Bùi Thảo Duyên (2274801030026)**
-
-Lớp: **K28KTPM03 - Trường đại học Văn Lang** 🎓
 
