@@ -11,6 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'CyberScore - Dự đoán điểm số bằng AI',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
