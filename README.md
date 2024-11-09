@@ -1,12 +1,12 @@
-# CyberScore - Ứng dụng dự đoán điểm số học sinh bằng AI 
+# CyberScore - Ứng dụng AI dự đoán điểm số sinh viên
 
-CyberScore là một ứng dụng mạnh mẽ, sử dụng trí tuệ nhân tạo (AI) để hỗ trợ giáo viên và phụ huynh dự đoán điểm số học tập của học sinh. Ứng dụng có mục tiêu giúp người dùng có cái nhìn sớm về kết quả học tập, từ đó đưa ra những điều chỉnh kịp thời trong quá trình giảng dạy và học tập.
+CyberScore là một ứng dụng mạnh mẽ, sử dụng trí tuệ nhân tạo (AI) để hỗ trợ giáo viên và phụ huynh dự đoán điểm số học tập của sinh viên. Ứng dụng có mục tiêu giúp người dùng có cái nhìn sớm về kết quả học tập, từ đó đưa ra những điều chỉnh kịp thời trong quá trình giảng dạy và học tập.
 
 ## 🎯 Mục tiêu của ứng dụng:
 
 - 🧠 **Dự đoán điểm số chính xác** dựa trên mô hình Machine Learning.
 - 📈 **Cung cấp thông tin sớm** về kết quả học tập để giúp đưa ra điều chỉnh kịp thời.
-- 👩‍🏫 **Hỗ trợ giáo viên và phụ huynh** trong việc theo dõi sự tiến bộ của học sinh.
+- 👩‍🏫 **Hỗ trợ giáo viên và phụ huynh** trong việc theo dõi sự tiến bộ của sinh viên.
 
 ---
 
@@ -16,7 +16,7 @@ CyberScore là một ứng dụng mạnh mẽ, sử dụng trí tuệ nhân tạ
 - 🎨 **Giao diện hiện đại** dựa trên tiêu chuẩn Material Design.
 - 🌍 **Tương thích đa nền tảng**, hoạt động trên Web, Android, iOS, Windows, Linux và macOS.
 - 💻 **Animation mượt mà**, dễ sử dụng.
-- 🔮 **Tích hợp AI** cho phép dự đoán điểm số học sinh.
+- 🔮 **Tích hợp AI** cho phép dự đoán điểm số sinh viên.
 
 ---
 
