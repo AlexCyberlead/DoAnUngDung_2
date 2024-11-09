@@ -117,21 +117,25 @@ CyberScore là một ứng dụng mạnh mẽ, sử dụng trí tuệ nhân tạ
 ## 🖼️ Screenshot - Ảnh chụp màn hình
 Dưới đây là một số ảnh chụp màn hình của ứng dụng:
 
-| Màn Hình Chính | Màn Hình Nhập Dữ Liệu |
-| -------------- | --------------------- |
-| ![Screenshot 1](assets/screenshots/Screenshot_1.jpg) | ![Screenshot 2](assets/screenshots/Screenshot_2.jpg) |
+### Màn Hình Chính
+![Screenshot 1](assets/screenshots/Screenshot_1.jpg)
 
-| Màn Hình Dự Đoán | Màn Hình Kết Quả |
-| ---------------- | ---------------- |
-| ![Screenshot 3](assets/screenshots/Screenshot_3.jpg) | ![Screenshot 4](assets/screenshots/Screenshot_4.jpg) |
+### Màn Hình Nhập Dữ Liệu
+![Screenshot 2](assets/screenshots/Screenshot_2.jpg)
+
+### Màn Hình Dự Đoán
+![Screenshot 3](assets/screenshots/Screenshot_3.jpg)
+
+### Màn Hình Kết Quả
+![Screenshot 4](assets/screenshots/Screenshot_4.jpg)
 
 ---
 
 ## 👥 Tác Giả:
 
-- **Lê Tuấn Anh**
-- **Trần Tuấn Anh**
-- **Bùi Thảo Duyên**
+- **Lê Tuấn Anh (2274801030005)**
+- **Trần Tuấn Anh (2274801030009)**
+- **Bùi Thảo Duyên (2274801030026)**
 
 Lớp: **K28KTPM03 - Trường đại học Văn Lang** 🎓
 
