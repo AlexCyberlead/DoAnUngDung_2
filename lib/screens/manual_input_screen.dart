@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../../widgets/prediction_result.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:logging/logging.dart';
+import 'package:numberpicker/numberpicker.dart';
 
 class ManualInputScreen extends StatefulWidget {
   const ManualInputScreen({super.key});
@@ -15,11 +17,11 @@ class _ManualInputScreenState extends State<ManualInputScreen> {
   bool _isLoading = false;
   int _currentSection = 0;
   final List<String> _sectionTitles = [
-    'Thông tin cơ bản',
-    'Thông tin gia đình',
-    'Thông tin học tập',
-    'Thông tin khác',
-    'Điểm số'
+    '👤 Thông tin cơ bản',
+    '👨‍👩‍👧‍👦 Thông tin gia đình',
+    '📚 Thông tin học tập',
+    '🎯 Thông tin khác',
+    '📊 Điểm số'
   ];
 
   final List<String> _sectionDescriptions = [
@@ -32,7 +34,7 @@ class _ManualInputScreenState extends State<ManualInputScreen> {
 
   // Controllers cho các trường input số
   final TextEditingController _ageController =
-      TextEditingController(text: '18');
+      TextEditingController(text: '15');
   final TextEditingController _meduController =
       TextEditingController(text: '4');
   final TextEditingController _feduController =
@@ -42,19 +44,19 @@ class _ManualInputScreenState extends State<ManualInputScreen> {
   final TextEditingController _failuresController =
       TextEditingController(text: '0');
   final TextEditingController _famrelController =
-      TextEditingController(text: '4');
+      TextEditingController(text: '3');
   final TextEditingController _freetimeController =
       TextEditingController(text: '3');
   final TextEditingController _gooutController =
-      TextEditingController(text: '4');
+      TextEditingController(text: '3');
   final TextEditingController _dalcController =
       TextEditingController(text: '1');
   final TextEditingController _walcController =
       TextEditingController(text: '1');
   final TextEditingController _healthController =
-      TextEditingController(text: '5');
+      TextEditingController(text: '3');
   final TextEditingController _absencesController =
-      TextEditingController(text: '6');
+      TextEditingController(text: '0');
   final TextEditingController _g1Controller = TextEditingController(text: '5');
   final TextEditingController _g2Controller = TextEditingController(text: '6');
 
@@ -66,7 +68,6 @@ class _ManualInputScreenState extends State<ManualInputScreen> {
   String _pstatus = "A";
   String _mjob = "at_home";
   String _fjob = "teacher";
-  final String _reason = "course";
   String _guardian = "mother";
   int _studytime = 2;
   String _schoolsup = "yes";
@@ -79,6 +80,8 @@ class _ManualInputScreenState extends State<ManualInputScreen> {
   String _romantic = "no";
 
   String _errorMessage = '';
+
+  final _logger = Logger('ManualInputScreen');
 
   // Hàm kiểm tra dữ liệu trước khi gửi
   bool _validateInputs() {
@@ -134,7 +137,7 @@ class _ManualInputScreenState extends State<ManualInputScreen> {
       int absences = int.parse(_absencesController.text);
 
       if (medu < 0 || medu > 4 || fedu < 0 || fedu > 4) {
-        _errorMessage = 'Trình độ học vấn phải từ 0-4';
+        _errorMessage = 'Trnh độ học vấn phi từ 0-4';
         return false;
       }
 
@@ -387,65 +390,55 @@ class _ManualInputScreenState extends State<ManualInputScreen> {
     );
   }
 
-  Widget _buildTextField(String label, TextEditingController controller) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 16.0),
-      child: TextField(
-        controller: controller,
-        decoration: InputDecoration(
-          labelText: label,
-          labelStyle: TextStyle(color: Colors.blue[800]),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: Colors.blue[800]!),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: Colors.blue[600]!),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: Colors.blue[800]!),
-          ),
-          filled: true,
-          fillColor: Colors.blue[50],
-        ),
-        keyboardType: TextInputType.number,
-      ),
-    );
-  }
+  Widget _buildToggleField(
+      String label, String value, Function(String) onChanged,
+      {required Map<String, String> options}) {
+    List<bool> isSelected = options.keys.map((key) => key == value).toList();
 
-  Widget _buildDropdown(String label, String value, Map<String, String> items,
-      Function(String?) onChanged) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16.0),
-      child: DropdownButtonFormField<String>(
-        value: value,
-        decoration: InputDecoration(
-          labelText: label,
-          labelStyle: TextStyle(color: Colors.blue[800]),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: Colors.blue[800]!),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            label,
+            style: TextStyle(
+              color: Colors.blue[800],
+              fontSize: 16,
+            ),
           ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: Colors.blue[600]!),
+          ToggleButtons(
+            direction: Axis.horizontal,
+            onPressed: (int index) {
+              onChanged(options.keys.elementAt(index));
+            },
+            borderRadius: const BorderRadius.all(Radius.circular(8)),
+            selectedBorderColor: Colors.blue[700],
+            selectedColor: Colors.white,
+            fillColor: Colors.blue[700],
+            color: Colors.blue[400],
+            constraints: const BoxConstraints(
+              minHeight: 40.0,
+              minWidth: 80.0,
+            ),
+            isSelected: isSelected,
+            children: options.values
+                .map(
+                  (text) => Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Text(
+                      text,
+                      style: TextStyle(
+                        color: isSelected[options.values.toList().indexOf(text)]
+                            ? Colors.white
+                            : Colors.blue[800],
+                      ),
+                    ),
+                  ),
+                )
+                .toList(),
           ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: Colors.blue[800]!),
-          ),
-          filled: true,
-          fillColor: Colors.blue[50],
-        ),
-        items: items.entries.map((entry) {
-          return DropdownMenuItem(
-            value: entry.key,
-            child: Text(entry.value),
-          );
-        }).toList(),
-        onChanged: onChanged,
+        ],
       ),
     );
   }
@@ -490,7 +483,6 @@ class _ManualInputScreenState extends State<ManualInputScreen> {
         "Fedu": int.parse(_feduController.text),
         "Mjob": _mjob,
         "Fjob": _fjob,
-        "reason": _reason,
         "guardian": _guardian,
         "traveltime": int.parse(_traveltimeController.text),
         "studytime": _studytime,
@@ -514,6 +506,10 @@ class _ManualInputScreenState extends State<ManualInputScreen> {
         "G2": int.parse(_g2Controller.text)
       };
 
+      // Log dữ liệu trước khi gửi
+      _logger.info('Dữ liệu gửi đến server:');
+      _logger.info(const JsonEncoder.withIndent('  ').convert(data));
+
       final response = await http.post(
         Uri.parse('http://localhost:5000/predict'),
         headers: {'Content-Type': 'application/json'},
@@ -521,6 +517,11 @@ class _ManualInputScreenState extends State<ManualInputScreen> {
       );
 
       if (!mounted) return;
+
+      // Log response từ server
+      _logger.info('Response từ server:');
+      _logger.info('Status code: ${response.statusCode}');
+      _logger.info('Body: ${response.body}');
 
       setState(() {
         _isLoading = false;
@@ -543,6 +544,7 @@ class _ManualInputScreenState extends State<ManualInputScreen> {
         }
       });
     } catch (e) {
+      _logger.severe('Lỗi khi gửi request:', e);
       if (!mounted) return;
 
       setState(() {
@@ -567,184 +569,490 @@ class _ManualInputScreenState extends State<ManualInputScreen> {
   Widget _buildCurrentSection() {
     switch (_currentSection) {
       case 0:
-        return _buildSection('Thông tin cơ bản', [
-          _buildDropdown(
-              'Trường',
-              _school,
-              {'GP': 'Gabriel Pereira', 'MS': 'Mousinho da Silveira'},
-              (value) => setState(() => _school = value!)),
-          _buildDropdown('Giới tính', _sex, {'F': 'Nữ', 'M': 'Nam'},
-              (value) => setState(() => _sex = value!)),
-          _buildTextField('Tuổi', _ageController),
-          _buildDropdown(
-              'Địa chỉ',
-              _address,
-              {'U': 'Thành thị', 'R': 'Nông thôn'},
-              (value) => setState(() => _address = value!)),
-          _buildDropdown(
-              'Quy mô gia đình',
-              _famsize,
-              {'LE3': '≤3 người', 'GT3': '>3 người'},
-              (value) => setState(() => _famsize = value!)),
-          _buildDropdown(
-              'Tình trạng chung sống của bố mẹ',
-              _pstatus,
-              {'T': 'Sống cùng nhau', 'A': 'Ly thân'},
-              (value) => setState(() => _pstatus = value!)),
+        return _buildSection('👤 Thông tin cơ bản', [
+          _buildToggleField(
+            'Trường',
+            _school,
+            (value) => setState(() => _school = value),
+            options: {'GP': 'Gabriel Pereira', 'MS': 'Mousinho da Silveira'},
+          ),
+          _buildToggleField(
+            'Giới tính',
+            _sex,
+            (value) => setState(() => _sex = value),
+            options: {'F': 'Nữ', 'M': 'Nam'},
+          ),
+          _buildAgePicker('Tuổi', _ageController),
+          _buildToggleField(
+            'Địa chỉ',
+            _address,
+            (value) => setState(() => _address = value),
+            options: {'U': 'Thành thị', 'R': 'Nông thôn'},
+          ),
+          _buildToggleField(
+            'Quy mô gia đình',
+            _famsize,
+            (value) => setState(() => _famsize = value),
+            options: {'LE3': '≤3 người', 'GT3': '>3 người'},
+          ),
+          _buildToggleField(
+            'Tình trạng chung sống của bố mẹ',
+            _pstatus,
+            (value) => setState(() => _pstatus = value),
+            options: {'T': 'Sống cùng nhau', 'A': 'Ly thân'},
+          ),
         ]);
       case 1:
-        return _buildSection('Thông tin gia đình', [
-          _buildTextField('Trình độ học vấn của mẹ (0-4)', _meduController),
-          _buildTextField('Trình độ học vấn của bố (0-4)', _feduController),
-          _buildDropdown(
-              'Nghề nghiệp của mẹ',
-              _mjob,
-              {
-                'teacher': 'Giáo viên',
-                'health': 'Y tế',
-                'services': 'Dịch vụ',
-                'at_home': 'Nội trợ',
-                'other': 'Khác'
-              },
-              (value) => setState(() => _mjob = value!)),
-          _buildDropdown(
-              'Nghề nghiệp của bố',
-              _fjob,
-              {
-                'teacher': 'Giáo viên',
-                'health': 'Y tế',
-                'services': 'Dịch vụ',
-                'at_home': 'Ở nhà',
-                'other': 'Khác'
-              },
-              (value) => setState(() => _fjob = value!)),
-          _buildDropdown(
-              'Người giám hộ',
-              _guardian,
-              {'mother': 'Mẹ', 'father': 'Bố', 'other': 'Khác'},
-              (value) => setState(() => _guardian = value!)),
+        return _buildSection('👨‍👩‍👧‍👦 Thông tin gia đình', [
+          _buildToggleField(
+            'Trình độ học vấn của mẹ',
+            _meduController.text,
+            (value) => setState(() => _meduController.text = value),
+            options: {
+              '0': 'Không',
+              '1': 'Tiểu học',
+              '2': 'THCS',
+              '3': 'THPT',
+              '4': 'Đại học',
+            },
+          ),
+          _buildToggleField(
+            'Trình độ học vấn của bố',
+            _feduController.text,
+            (value) => setState(() => _feduController.text = value),
+            options: {
+              '0': 'Không',
+              '1': 'Tiểu học',
+              '2': 'THCS',
+              '3': 'THPT',
+              '4': 'Đại học',
+            },
+          ),
+          _buildToggleField(
+            'Nghề nghiệp của mẹ',
+            _mjob,
+            (value) => setState(() => _mjob = value),
+            options: {
+              'teacher': 'Giáo viên',
+              'health': 'Y tế',
+              'services': 'Dịch vụ',
+              'at_home': 'Nội trợ',
+              'other': 'Khác'
+            },
+          ),
+          _buildToggleField(
+            'Nghề nghiệp của bố',
+            _fjob,
+            (value) => setState(() => _fjob = value),
+            options: {
+              'teacher': 'Giáo viên',
+              'health': 'Y tế',
+              'services': 'Dịch vụ',
+              'at_home': 'Ở nhà',
+              'other': 'Khác'
+            },
+          ),
+          _buildToggleField(
+            'Người giám hộ',
+            _guardian,
+            (value) => setState(() => _guardian = value),
+            options: {'mother': 'Mẹ', 'father': 'Bố', 'other': 'Khác'},
+          ),
         ]);
       case 2:
-        return _buildSection('Thông tin học tập', [
-          _buildTextField(
-              'Thời gian di chuyển đến trường (1-4)', _traveltimeController),
-          _buildDropdown(
-              'Thời gian học (giờ/tuần)',
-              _studytime.toString(),
-              {'1': '<2 giờ', '2': '2-5 giờ', '3': '5-10 giờ', '4': '>10 giờ'},
-              (value) => setState(() => _studytime = int.parse(value!))),
-          _buildTextField('Số lần trượt (0-3)', _failuresController),
-          _buildSwitchField(
+        return _buildSection('📚 Thông tin học tập', [
+          _buildToggleField(
+            'Thời gian di chuyển đến trường',
+            _traveltimeController.text,
+            (value) => setState(() => _traveltimeController.text = value),
+            options: {
+              '1': '<15 phút',
+              '2': '15-30 phút',
+              '3': '30-60 phút',
+              '4': '>60 phút',
+            },
+          ),
+          _buildToggleField(
+            'Thời gian học (giờ/tuần)',
+            _studytime.toString(),
+            (value) => setState(() => _studytime = int.parse(value)),
+            options: {
+              '1': '<2 giờ',
+              '2': '2-5 giờ',
+              '3': '5-10 giờ',
+              '4': '>10 giờ'
+            },
+          ),
+          _buildToggleField(
+            'Số lần trượt',
+            _failuresController.text,
+            (value) => setState(() => _failuresController.text = value),
+            options: {
+              '0': 'Không',
+              '1': '1 lần',
+              '2': '2 lần',
+              '3': '3 lần',
+            },
+          ),
+          _buildToggleField(
             'Hỗ trợ học tập từ trường',
             _schoolsup,
-            (value) => setState(() => _schoolsup = value ? 'yes' : 'no'),
-            trueValue: 'yes',
-            falseValue: 'no',
+            (value) => setState(() => _schoolsup = value),
+            options: {'yes': 'Có', 'no': 'Không'},
           ),
-          _buildSwitchField(
+          _buildToggleField(
             'Hỗ trợ học tập từ gia đình',
             _famsup,
-            (value) => setState(() => _famsup = value ? 'yes' : 'no'),
-            trueValue: 'yes',
-            falseValue: 'no',
+            (value) => setState(() => _famsup = value),
+            options: {'yes': 'Có', 'no': 'Không'},
           ),
-          _buildSwitchField(
+          _buildToggleField(
             'Học thêm trả phí',
             _paid,
-            (value) => setState(() => _paid = value ? 'yes' : 'no'),
-            trueValue: 'yes',
-            falseValue: 'no',
+            (value) => setState(() => _paid = value),
+            options: {'yes': 'Có', 'no': 'Không'},
           ),
         ]);
       case 3:
-        return _buildSection('Thông tin khác', [
-          _buildDropdown(
-              'Hoạt động ngoại khóa',
-              _activities,
-              {'yes': 'Có', 'no': 'Không'},
-              (value) => setState(() => _activities = value!)),
-          _buildDropdown(
-              'Đã học mẫu giáo',
-              _nursery,
-              {'yes': 'Có', 'no': 'Không'},
-              (value) => setState(() => _nursery = value!)),
-          _buildDropdown(
-              'Muốn học đại học',
-              _higher,
-              {'yes': 'Có', 'no': 'Không'},
-              (value) => setState(() => _higher = value!)),
-          _buildDropdown(
-              'Có Internet ở nhà',
-              _internet,
-              {'yes': 'Có', 'no': 'Không'},
-              (value) => setState(() => _internet = value!)),
-          _buildDropdown(
-              'Có người yêu',
-              _romantic,
-              {'yes': 'Có', 'no': 'Không'},
-              (value) => setState(() => _romantic = value!)),
-          _buildTextField('Quan hệ gia đình (1-5)', _famrelController),
-          _buildTextField('Thời gian rảnh (1-5)', _freetimeController),
-          _buildTextField('Thời gian đi chơi (1-5)', _gooutController),
-          _buildTextField('Uống rượu ngày thường (1-5)', _dalcController),
-          _buildTextField('Uống rượu cuối tuần (1-5)', _walcController),
-          _buildTextField('Tình trạng sức khỏe (1-5)', _healthController),
-          _buildTextField('Số buổi vắng mặt', _absencesController),
+        return _buildSection('🎯 Thông tin khác', [
+          _buildToggleField(
+            'Hoạt động ngoại khóa',
+            _activities,
+            (value) => setState(() => _activities = value),
+            options: {'yes': 'Có', 'no': 'Không'},
+          ),
+          _buildToggleField(
+            'Đã học mẫu giáo',
+            _nursery,
+            (value) => setState(() => _nursery = value),
+            options: {'yes': 'Có', 'no': 'Không'},
+          ),
+          _buildToggleField(
+            'Muốn học đại học',
+            _higher,
+            (value) => setState(() => _higher = value),
+            options: {'yes': 'Có', 'no': 'Không'},
+          ),
+          _buildToggleField(
+            'Có Internet ở nhà',
+            _internet,
+            (value) => setState(() => _internet = value),
+            options: {'yes': 'Có', 'no': 'Không'},
+          ),
+          _buildToggleField(
+            'Có người yêu',
+            _romantic,
+            (value) => setState(() => _romantic = value),
+            options: {'yes': 'Có', 'no': 'Không'},
+          ),
+          _buildToggleField(
+            'Quan hệ gia đình',
+            _famrelController.text,
+            (value) => setState(() => _famrelController.text = value),
+            options: {
+              '1': 'Rất tệ',
+              '2': 'Tệ',
+              '3': 'Bình thường',
+              '4': 'Tốt',
+              '5': 'Rất tốt',
+            },
+          ),
+          _buildToggleField(
+            'Thời gian rảnh',
+            _freetimeController.text,
+            (value) => setState(() => _freetimeController.text = value),
+            options: {
+              '1': 'Rất ít',
+              '2': 'Ít',
+              '3': 'Trung bình',
+              '4': 'Nhiều',
+              '5': 'Rất nhiều',
+            },
+          ),
+          _buildToggleField(
+            'Thời gian đi chơi',
+            _gooutController.text,
+            (value) => setState(() => _gooutController.text = value),
+            options: {
+              '1': 'Rất ít',
+              '2': 'Ít',
+              '3': 'Trung bình',
+              '4': 'Nhiều',
+              '5': 'Rất nhiều',
+            },
+          ),
+          _buildToggleField(
+            'Uống rượu ngày thường',
+            _dalcController.text,
+            (value) => setState(() => _dalcController.text = value),
+            options: {
+              '1': 'Rất ít',
+              '2': 'Ít',
+              '3': 'Trung bình',
+              '4': 'Nhiều',
+              '5': 'Rất nhiều',
+            },
+          ),
+          _buildToggleField(
+            'Uống rượu cuối tuần',
+            _walcController.text,
+            (value) => setState(() => _walcController.text = value),
+            options: {
+              '1': 'Rất ít',
+              '2': 'Ít',
+              '3': 'Trung bình',
+              '4': 'Nhiều',
+              '5': 'Rất nhiều',
+            },
+          ),
+          _buildToggleField(
+            'Tình trạng sức khỏe',
+            _healthController.text,
+            (value) => setState(() => _healthController.text = value),
+            options: {
+              '1': 'Rất yếu',
+              '2': 'Yếu',
+              '3': 'Bình thường',
+              '4': 'Tốt',
+              '5': 'Rất tốt',
+            },
+          ),
+          _buildToggleField(
+            'Số buổi vắng mặt',
+            _absencesController.text,
+            (value) => setState(() => _absencesController.text = value),
+            options: {
+              '0': 'Không vắng',
+              '1': '1-5 buổi',
+              '2': '6-10 buổi',
+              '3': '11-15 buổi',
+              '4': '>15 buổi',
+            },
+          ),
         ]);
       case 4:
-        return _buildSection('Điểm số', [
-          _buildTextField('Điểm kỳ 1 (G1) (1 - 20)', _g1Controller),
-          _buildTextField('Điểm kỳ 2 (G2) (1 - 20)', _g2Controller),
+        return _buildSection('📊 Điểm số', [
+          const Text(
+            'Hãy nhập điểm của hai kỳ trước để dự đoán điểm kỳ này',
+            style: TextStyle(
+              fontSize: 16,
+              color: Colors.grey,
+              height: 1.5,
+            ),
+          ),
+          const SizedBox(height: 24),
+          Row(
+            children: [
+              Expanded(
+                child: Card(
+                  elevation: 4,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Icon(Icons.score,
+                                color: Colors.blue[700], size: 24),
+                            const SizedBox(width: 8),
+                            Text(
+                              'Kỳ 1',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.blue[800],
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 16),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.blue[50],
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(color: Colors.blue[200]!),
+                          ),
+                          child: TextField(
+                            controller: _g1Controller,
+                            keyboardType: TextInputType.number,
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.blue[900],
+                            ),
+                            textAlign: TextAlign.center,
+                            decoration: InputDecoration(
+                              hintText: '0-20',
+                              border: InputBorder.none,
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 16,
+                              ),
+                              suffixText: '/20',
+                              suffixStyle: TextStyle(
+                                fontSize: 16,
+                                color: Colors.blue[400],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Card(
+                  elevation: 4,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Icon(Icons.score,
+                                color: Colors.green[700], size: 24),
+                            const SizedBox(width: 8),
+                            Text(
+                              'Kỳ 2',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.green[800],
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 16),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.green[50],
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(color: Colors.green[200]!),
+                          ),
+                          child: TextField(
+                            controller: _g2Controller,
+                            keyboardType: TextInputType.number,
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.green[900],
+                            ),
+                            textAlign: TextAlign.center,
+                            decoration: InputDecoration(
+                              hintText: '0-20',
+                              border: InputBorder.none,
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 16,
+                              ),
+                              suffixText: '/20',
+                              suffixStyle: TextStyle(
+                                fontSize: 16,
+                                color: Colors.green[400],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ]);
       default:
         return Container();
     }
   }
 
-  Widget _buildSwitchField(String label, String value, Function(bool) onChanged,
-      {required String trueValue, required String falseValue}) {
+  Widget _buildAgePicker(String label, TextEditingController controller) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16.0),
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.blue[50],
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: Colors.blue[200]!),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: Text(
-                label,
-                style: TextStyle(
-                  color: Colors.blue[800],
-                  fontSize: 16,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            label,
+            style: TextStyle(
+              color: Colors.blue[800],
+              fontSize: 16,
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.blue[50],
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: Colors.blue[600]!),
+            ),
+            child: InkWell(
+              onTap: () {
+                int currentValue = int.parse(controller.text);
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: const Text('Chọn tuổi'),
+                    content: StatefulBuilder(
+                      builder: (context, setDialogState) => NumberPicker(
+                        value: currentValue,
+                        minValue: 15,
+                        maxValue: 22,
+                        onChanged: (value) {
+                          setDialogState(() {
+                            currentValue = value;
+                          });
+                        },
+                      ),
+                    ),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text('Đóng'),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          setState(() {
+                            controller.text = currentValue.toString();
+                          });
+                          Navigator.pop(context);
+                        },
+                        child: const Text('Chọn'),
+                      ),
+                    ],
+                  ),
+                );
+              },
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      '${controller.text} tuổi',
+                      style: TextStyle(
+                        color: Colors.blue[800],
+                        fontSize: 16,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Icon(Icons.edit, color: Colors.blue[800], size: 20),
+                  ],
                 ),
               ),
             ),
-            Row(
-              children: [
-                Text(
-                  value == trueValue ? 'Có' : 'Không',
-                  style: TextStyle(
-                    color: Colors.blue[600],
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Switch(
-                  value: value == trueValue,
-                  onChanged: (bool newValue) {
-                    onChanged(newValue);
-                  },
-                  activeColor: Colors.blue[700],
-                ),
-              ],
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

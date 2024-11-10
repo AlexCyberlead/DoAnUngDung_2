@@ -29,13 +29,17 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   flutter:
-    sdk: flutter
-  http: ^1.2.0
-  cupertino_icons: ^1.0.8
+    sdk: flutter    
+  http: ^1.2.0 # Để gửi request lên server
+  cupertino_icons: ^1.0.8 # Để icon 
 
-  file_picker: ^6.1.1
-  csv: ^5.1.1
-  path_provider: ^2.1.2
+  file_picker: ^6.1.1 # Để chọn file
+  csv: ^5.1.1 # Để đọc file csv
+  path_provider: ^2.1.2 # Để lưu file
+
+  logging: ^1.2.0 # Để in log ra console
+
+  numberpicker: ^2.1.2 # Để chọn số
 
 
 dev_dependencies:
