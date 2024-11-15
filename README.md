@@ -14,7 +14,6 @@ CyberScore là một webapp, sử dụng trí tuệ nhân tạo (AI) để hỗ 
 
 - ✏️ **Nhập dữ liệu thủ công** hoặc từ file CSV.
 - 🎨 **Giao diện hiện đại** dựa trên tiêu chuẩn Material Design.
-- 🌍 **Tương thích đa nền tảng**, hoạt động trên Web, Android, iOS, Windows, Linux và macOS.
 - 💻 **Animation mượt mà**, dễ sử dụng.
 - 🔮 **Tích hợp AI** cho phép dự đoán điểm số sinh viên.
 
