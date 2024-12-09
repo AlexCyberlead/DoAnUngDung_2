@@ -10,6 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter    
+  flutter_svg: ^2.0.16  # Kiểm tra phiên bản mới nhất trên pub.dev
   http: ^1.2.0
   cupertino_icons: ^1.0.8
   file_picker: ^6.1.1
@@ -27,3 +28,15 @@ flutter:
   uses-material-design: true
   assets:
     - assets/
+    - assets/fonts/
+    - assets/icons/
+  fonts:
+    - family: Fz Poppins
+      fonts:
+        - asset: assets/fonts/FZ_POPPINS_REGULAR.TTF
+        - asset: assets/fonts/FZ_POPPINS_BOLD.TTF
+        - asset: assets/fonts/FZ_POPPINS_ITALIC.TTF
+        - asset: assets/fonts/FZ_POPPINS_LIGHT.TTF
+        - asset: assets/fonts/FZ_POPPINS_MEDIUM.TTF
+        - asset: assets/fonts/FZ_POPPINS_SEMIBOLD.TTF
+        - asset: assets/fonts/FZ_POPPINS_THIN.TTF

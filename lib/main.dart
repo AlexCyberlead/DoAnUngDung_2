@@ -21,11 +21,11 @@ class MyApp extends StatelessWidget {
       title: 'CyberScore - Dự đoán điểm số bằng AI',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.blue,
+          seedColor: const Color(0xFF2969FF),
           brightness: Brightness.light,
         ),
         useMaterial3: true,
-        fontFamily: 'Roboto',
+        fontFamily: 'Fz Poppins',
       ),
       home: const WelcomeScreen(),
     );

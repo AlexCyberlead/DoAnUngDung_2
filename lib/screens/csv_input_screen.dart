@@ -135,11 +135,11 @@ class _CSVInputScreenState extends State<CSVInputScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: const Text('Xử lý file CSV thành công!'),
-            backgroundColor: Colors.green[600],
+            backgroundColor:const Color(0xFF34C759),
             behavior: SnackBarBehavior.floating,
-            margin: const EdgeInsets.all(16),
+            margin: const EdgeInsets.symmetric(horizontal: 500, vertical: 32),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(14),
             ),
           ),
         );
@@ -184,21 +184,21 @@ class _CSVInputScreenState extends State<CSVInputScreen> {
           allowedExtensions: ['csv'],
         );
 
-        if (outputFile != null) {
-          final file = File(outputFile);
-          await file.writeAsString(csvData);
-        }
+        if (outputFile == null) return;
+        
+        final file = File(outputFile);
+        await file.writeAsString(csvData);
       }
 
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: const Text('File đã được lưu thành công!'),
-          backgroundColor: Colors.green[600],
+          backgroundColor: const Color(0xFF34C759),
           behavior: SnackBarBehavior.floating,
-          margin: const EdgeInsets.all(16),
+          margin: const EdgeInsets.symmetric(horizontal: 500, vertical: 32),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(14),
           ),
         ),
       );
@@ -209,9 +209,9 @@ class _CSVInputScreenState extends State<CSVInputScreen> {
           content: Text('Lỗi khi lưu file: ${e.toString()}'),
           backgroundColor: Colors.red[700],
           behavior: SnackBarBehavior.floating,
-          margin: const EdgeInsets.all(16),
+          margin: const EdgeInsets.symmetric(horizontal: 500, vertical: 32),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(14),
           ),
         ),
       );
@@ -221,34 +221,74 @@ class _CSVInputScreenState extends State<CSVInputScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: Row(
-          children: [
-            Icon(Icons.table_chart, color: Colors.blue[800]),
-            const SizedBox(width: 12),
-            const Text('Nhập từ file CSV'),
-          ],
+        toolbarHeight: 100,
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 10.0, top: 10.0),
+          child: GestureDetector(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Container(
+              height: 64,
+              width: 64,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: const Color(0xFF2969FF).withOpacity(0.2),
+                  width: 6,
+                ),
+              ),
+              child: Center(
+                child: Container(
+                  height: 54,
+                  width: 54,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Color(0xFF2969FF),
+                  ),
+                  child: const Icon(
+                    Icons.arrow_back,
+                    color: Colors.white,
+                    size: 24,
+                  ),
+                ),
+              ),
+            ),
+          ),
         ),
-        backgroundColor: Colors.white,
-        elevation: 2,
-        shadowColor: Colors.blue.withOpacity(0.2),
+        title: const Padding(
+          padding: EdgeInsets.only(top: 20.0),
+          child: Text(
+            'Nhập liệu từ file CSV',
+            style: TextStyle(
+              color: Color(0xFF2969FF),
+              fontWeight: FontWeight.w600,
+              fontSize: 28,
+            ),
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
       ),
       body: Stack(
         fit: StackFit.expand,
         children: [
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Colors.blue[100]!,
-                  Colors.blue[50]!,
+                  Color(0xFFF1F9FF),
+                  Colors.white,
                 ],
               ),
             ),
             child: SingleChildScrollView(
-              padding: const EdgeInsets.all(24.0),
+              padding: const EdgeInsets.all(150.0),
               child: Center(
                 child: ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 800),
@@ -257,44 +297,72 @@ class _CSVInputScreenState extends State<CSVInputScreen> {
                     children: [
                       Card(
                         elevation: 4,
+                        color: Colors.white,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: BorderRadius.circular(45),
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(24),
+                        child: Container(
+                          width: 493,
+                          height: 240,
+                          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Text(
+                              const Text(
                                 'Tải lên file CSV của bạn',
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.blue[800],
+                                  color:  Color(0xFF2969FF),
                                 ),
                               ),
                               const SizedBox(height: 16),
-                              Text(
+                              const Text(
                                 'Hãy chọn file CSV chứa dữ liệu học sinh để phân tích',
                                 style: TextStyle(
                                   fontSize: 16,
-                                  color: Colors.blue[700],
+                                  color: Color(0xFF2969FF),
                                 ),
                                 textAlign: TextAlign.center,
                               ),
                               const SizedBox(height: 24),
-                              ElevatedButton.icon(
-                                onPressed:
-                                    _isProcessing ? null : _pickAndProcessCSV,
-                                icon: const Icon(Icons.upload_file),
-                                label: const Text('Chọn file CSV'),
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.blue[700],
-                                  foregroundColor: Colors.white,
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 32,
-                                    vertical: 16,
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(24),
+                                  border: Border.all(
+                                    color: const Color(0xFF2969FF).withOpacity(0.1),
+                                    width: 8,
                                   ),
-                                  textStyle: const TextStyle(fontSize: 16),
+                                ),
+                                child: ElevatedButton.icon(
+                                  onPressed:
+                                      _isProcessing ? null : _pickAndProcessCSV,
+                                  icon: const Icon(
+                                    Icons.upload_file,
+                                    size: 24,
+                                    color: Colors.white,
+                                  ),
+                                  label: const Text(
+                                    'Chọn file CSV',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: 'Fz Poppins',
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: const Color(0xFF2969FF),
+                                    elevation: 0,
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 32,
+                                      vertical: 24,
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(18),
+                                    ),
+                                  ),
                                 ),
                               ),
                             ],
@@ -305,24 +373,25 @@ class _CSVInputScreenState extends State<CSVInputScreen> {
                       if (_isProcessing)
                         Card(
                           elevation: 4,
+                          color: Colors.white,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
+                            borderRadius: BorderRadius.circular(11.78),
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(24),
+                          child: const Padding(
+                            padding: EdgeInsets.all(24), 
                             child: Column(
                               children: [
                                 CircularProgressIndicator(
                                   valueColor: AlwaysStoppedAnimation<Color>(
-                                    Colors.blue[700]!,
+                                    Color(0xFF2969FF),
                                   ),
                                 ),
-                                const SizedBox(height: 16),
+                                SizedBox(height: 16),
                                 Text(
                                   'Đang xử lý dữ liệu...',
                                   style: TextStyle(
                                     fontSize: 16,
-                                    color: Colors.blue[700],
+                                    color: Color(0xFF2969FF),
                                   ),
                                 ),
                               ],
@@ -332,16 +401,18 @@ class _CSVInputScreenState extends State<CSVInputScreen> {
                       if (_isProcessingComplete)
                         Card(
                           elevation: 4,
+                          color: Colors.white,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
+                            borderRadius: BorderRadius.circular(45),
                           ),
-                          child: Padding(
+                          child: Container(
+                            width: 493,
                             padding: const EdgeInsets.all(24),
                             child: Column(
                               children: [
-                                Icon(
+                                const Icon(
                                   Icons.check_circle,
-                                  color: Colors.green[600],
+                                  color: Color(0xFF34C759),
                                   size: 48,
                                 ),
                                 const SizedBox(height: 16),
@@ -349,22 +420,49 @@ class _CSVInputScreenState extends State<CSVInputScreen> {
                                   'Xử lý hoàn tất!',
                                   style: TextStyle(
                                     fontSize: 18,
+                                    color: Color(0xFF34C759),
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 const SizedBox(height: 24),
-                                ElevatedButton.icon(
-                                  onPressed: _downloadProcessedCSV,
-                                  icon: const Icon(Icons.download),
-                                  label: const Text('Tải file CSV đã xử lý'),
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.green[600],
-                                    foregroundColor: Colors.white,
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 32,
-                                      vertical: 16,
+                                Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(24),
+                                    border: Border.all(
+                                      color: const Color(0xFF2969FF)
+                                          .withOpacity(0.1),
+                                      width: 8,
                                     ),
-                                    textStyle: const TextStyle(fontSize: 16),
+                                  ),
+                                  child: ElevatedButton.icon(
+                                    onPressed: _downloadProcessedCSV,
+                                    icon: const Icon(Icons.download),
+                                    label: const Text(
+                                      'Tải file CSV đã xử lý',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600,
+                                        fontFamily: 'Fz Poppins',
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: const Color(0xFF34C759),
+                                      foregroundColor: Colors.white,
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 32,
+                                        vertical: 24,
+                                      ),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(18),
+                                      ),
+                                      side: BorderSide(
+                                        color: const Color(0xFF34C759)
+                                            .withOpacity(0.1), // Viền mờ
+                                        width: 8, // Độ dày viền
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ],
