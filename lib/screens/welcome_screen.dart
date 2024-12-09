@@ -51,7 +51,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
         ),
         child: Center(
           child: SizedBox(
-            width: 1200,
+            width: 1400,
             child: SafeArea(
               child: Padding(
                 padding: const EdgeInsets.symmetric(
@@ -76,7 +76,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                   offset: Offset(0, 30 * (1 - value)),
                                   child: Image.asset(
                                     'assets/Logo_CyberScore.png',
-                                    height: 50,
+                                    height: 60,
                                     fit: BoxFit.contain,
                                   ),
                                 ),
@@ -94,15 +94,16 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                 child: Transform.translate(
                                   offset: Offset(0, 30 * (1 - value)),
                                   child: Text(
-                                    'Dự đoán điểm số\nvới Cyber Score',
+                                    'DỰ ĐOÁN ĐIỂM SỐ VỚI CYBER SCORE',
                                     style: Theme.of(context)
                                         .textTheme
                                         .displayLarge
                                         ?.copyWith(
                                           fontWeight: FontWeight.bold,
-                                          color: Colors.blue.shade900,
-                                          height: 1.2,
-                                          fontSize: 40,
+                                          color: const Color(0xFF2969FF),
+                                          fontSize: 58,
+                                          fontFamily: 'Fz Poppins',
+                                          height: 74 / 58,
                                         ),
                                   ),
                                 ),
@@ -119,19 +120,34 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                 opacity: value,
                                 child: Transform.translate(
                                   offset: Offset(0, 30 * (1 - value)),
-                                  child: Text(
-                                    'Công cụ dự đoán điểm số học sinh dựa trên trí tuệ nhân tạo, '
-                                    'giúp giáo viên và phụ huynh có cái nhìn sớm về kết quả học tập '
-                                    'để có những điều chỉnh kịp thời.'
-                                    '\n\nMột dự án của Nhóm CYBERLEAD',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headlineSmall
-                                        ?.copyWith(
-                                          color: Colors.grey.shade700,
+                                  child: const Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Công cụ dự đoán điểm số học sinh dựa trên trí tuệ nhân tạo, '
+                                        'giúp giáo viên và phụ huynh có cái nhìn sớm về kết quả học tập '
+                                        'để có những điều chỉnh kịp thời.',
+                                        style: TextStyle(
+                                          fontFamily: 'Fz Poppins',
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 16,
                                           height: 1.5,
-                                          fontSize: 18,
+                                          color: Color(0xFF2969FF),
                                         ),
+                                      ),
+                                      SizedBox(height: 14),
+                                      Text(
+                                        'Một dự án của Nhóm CYBERLEAD',
+                                        style: TextStyle(
+                                          fontFamily: 'Fz Poppins',
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 18,
+                                          height: 1.5,
+                                          color: Color(0xFF2969FF),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               );
@@ -220,33 +236,36 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       child: Container(
-        height: 50,
+        height: 68,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          boxShadow: isOutlined
-              ? null
-              : [
-                  BoxShadow(
-                    color: Colors.blue.withOpacity(0.3),
-                    blurRadius: 12,
-                    offset: const Offset(0, 6),
-                  ),
-                ],
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(
+            color: const Color(0xFF2969FF).withOpacity(0.1),
+            width: 8,
+          ),
         ),
         child: ElevatedButton.icon(
           onPressed: onPressed,
           icon: Icon(icon, size: 20),
-          label: Text(text),
+          label: Text(
+            text,
+            style: const TextStyle(
+              fontWeight: FontWeight.w600,
+              fontFamily: 'Fz Poppins',
+            ),
+          ),
           style: ElevatedButton.styleFrom(
-            backgroundColor: isOutlined ? Colors.white : Colors.blue.shade600,
-            foregroundColor: isOutlined ? Colors.blue.shade600 : Colors.white,
+            backgroundColor:
+                isOutlined ? Colors.white : const Color(0xFF2969FF),
+            foregroundColor:
+                isOutlined ? const Color(0xFF2969FF) : Colors.white,
             elevation: 0,
             padding: const EdgeInsets.symmetric(horizontal: 20),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-              side: isOutlined
-                  ? BorderSide(color: Colors.blue.shade600, width: 2)
-                  : BorderSide.none,
+              borderRadius: BorderRadius.circular(18),
+              //   side: isOutlined
+              //       ? BorderSide(color: color: const Color(0xFF2969FF),, width: 2)
+              //       : BorderSide.none,
             ),
           ),
         ),

@@ -47,16 +47,16 @@ class PredictionResult extends StatelessWidget {
     final statusColor = _getStatusColor(result['status']!);
 
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
+      margin: const EdgeInsets.symmetric(horizontal: 6),
       child: Card(
         elevation: 8,
         shadowColor: Colors.blue.withOpacity(0.4),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(40),
         ),
         child: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(40),
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -75,12 +75,6 @@ class PredictionResult extends StatelessWidget {
                     const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(
-                          Icons.analytics,
-                          color: Colors.white,
-                          size: 32,
-                        ),
-                        SizedBox(width: 12),
                         Text(
                           'Kết quả dự đoán',
                           style: TextStyle(
@@ -121,8 +115,8 @@ class PredictionResult extends StatelessWidget {
                 decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(20),
-                    bottomRight: Radius.circular(20),
+                    bottomLeft: Radius.circular(40),
+                    bottomRight: Radius.circular(40),
                   ),
                 ),
                 child: Column(

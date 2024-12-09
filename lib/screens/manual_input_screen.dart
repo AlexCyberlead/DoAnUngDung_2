@@ -17,11 +17,11 @@ class _ManualInputScreenState extends State<ManualInputScreen> {
   bool _isLoading = false;
   int _currentSection = 0;
   final List<String> _sectionTitles = [
-    '👤 Thông tin cơ bản',
-    '👨‍👩‍👧‍👦 Thông tin gia đình',
-    '📚 Thông tin học tập',
-    '🎯 Thông tin khác',
-    '📊 Điểm số'
+    'Thông tin cơ bản',
+    'Thông tin gia đình',
+    'Thông tin học tập',
+    'Thông tin khác',
+    'Điểm số'
   ];
 
   final List<String> _sectionDescriptions = [
@@ -182,34 +182,75 @@ class _ManualInputScreenState extends State<ManualInputScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
-        title: Row(
-          children: [
-            Icon(Icons.edit_document, color: Colors.blue[800]),
-            const SizedBox(width: 12),
-            const Text('Nhập dữ liệu thủ công'),
-          ],
+        toolbarHeight: 100,
+        leading: Container(
+          margin: const EdgeInsets.only(left: 5.0, top: 0.0),
+          child: GestureDetector(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Container(
+              height: 64,
+              width: 64,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: const Color(0xFF2969FF).withOpacity(0.2),
+                  width: 8,
+                ),
+              ),
+              child: Center(
+                child: Container(
+                  height: 54,
+                  width: 54,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Color(0xFF2969FF),
+                  ),
+                  child: const Icon(
+                    Icons.arrow_back,
+                    color: Colors.white,
+                    size: 24,
+                  ),
+                ),
+              ),
+            ),
+          ),
         ),
-        backgroundColor: Colors.white,
-        elevation: 2,
-        shadowColor: Colors.blue.withOpacity(0.2),
+        title: const Padding(
+          padding: EdgeInsets.only(top: 20.0),
+          child: Text(
+            'Nhập liệu thủ công',
+            style: TextStyle(
+              color: Color(0xFF2969FF),
+              fontWeight: FontWeight.w600,
+              fontSize: 28,
+            ),
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: const Color.fromARGB(0, 255, 255, 255),
+        elevation: 0,
       ),
       body: Stack(
         fit: StackFit.expand,
         children: [
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Colors.blue[100]!,
-                  Colors.blue[50]!,
+                  Color(0xFFF1F9FF),
+                  Colors.white,
                 ],
               ),
             ),
             child: SingleChildScrollView(
-              padding: const EdgeInsets.only(bottom: 80),
+              padding: const EdgeInsets.all(100.0),
               child: Center(
                 child: ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 800),
@@ -223,15 +264,19 @@ class _ManualInputScreenState extends State<ManualInputScreen> {
                             LinearProgressIndicator(
                               value:
                                   (_currentSection + 1) / _sectionTitles.length,
-                              minHeight: 8,
+                              minHeight: 10,
+                              backgroundColor: Colors.white,
+                              valueColor: const AlwaysStoppedAnimation<Color>(
+                                  Color(0xFF2969FF)),
                               borderRadius: BorderRadius.circular(8),
                             ),
+                            const SizedBox(height: 7),
                             const SizedBox(height: 12),
                             Text(
                               'Bước ${_currentSection + 1} / ${_sectionTitles.length}',
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.primary,
-                                fontWeight: FontWeight.bold,
+                              style: const TextStyle(
+                                color: Color(0xFF2969FF),
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
                           ],
@@ -241,20 +286,22 @@ class _ManualInputScreenState extends State<ManualInputScreen> {
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         child: Text(
                           _sectionDescriptions[_currentSection],
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 16,
-                            color: Colors.blue[700],
+                            color: Color(0xFF2969FF),
                           ),
                           textAlign: TextAlign.center,
                         ),
                       ),
                       Card(
-                        elevation: 4,
+                        elevation: 3,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: BorderRadius.circular(45),
                         ),
+                        color: Colors.white,
                         child: Padding(
-                          padding: const EdgeInsets.all(24),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 32, horizontal: 24),
                           child: _buildCurrentSection(),
                         ),
                       ),
@@ -272,7 +319,7 @@ class _ManualInputScreenState extends State<ManualInputScreen> {
             right: 0,
             bottom: 0,
             child: Container(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               decoration: BoxDecoration(
                 color: Colors.white,
                 boxShadow: [
@@ -293,18 +340,38 @@ class _ManualInputScreenState extends State<ManualInputScreen> {
                         Expanded(
                           child: Padding(
                             padding: const EdgeInsets.only(right: 8),
-                            child: ElevatedButton.icon(
-                              onPressed: () {
-                                setState(() {
-                                  _currentSection--;
-                                });
-                              },
-                              icon: const Icon(Icons.arrow_back),
-                              label: const Text('Quay lại'),
-                              style: ElevatedButton.styleFrom(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 16),
-                                textStyle: const TextStyle(fontSize: 16),
+                            child: Container(
+                              // Thiết kế bo góc và viền cho nút
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(24),
+                                border: Border.all(
+                                  color:
+                                      const Color(0xFF2969FF).withOpacity(0.1),
+                                  width: 8,
+                                ),
+                              ),
+                              child: ElevatedButton.icon(
+                                onPressed: () {
+                                  setState(() {
+                                    _currentSection--;
+                                  });
+                                },
+                                icon: const Icon(Icons.arrow_back),
+                                label: const Text(
+                                  'Quay lại',
+                                  style: TextStyle(color: Color(0xFF2969FF)),
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 16),
+                                  textStyle: const TextStyle(fontSize: 16),
+                                  backgroundColor: Colors.white,
+                                  foregroundColor: const Color(0xFF2969FF),
+                                  elevation: 0,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(14),
+                                  ),
+                                ),
                               ),
                             ),
                           ),
@@ -313,51 +380,82 @@ class _ManualInputScreenState extends State<ManualInputScreen> {
                         Expanded(
                           child: Padding(
                             padding: const EdgeInsets.only(left: 8),
-                            child: ElevatedButton.icon(
-                              onPressed: () {
-                                setState(() {
-                                  _currentSection++;
-                                });
-                              },
-                              icon: const Icon(Icons.arrow_forward),
-                              label: const Text(
-                                'Tiếp tục',
-                                style: TextStyle(color: Colors.white),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(24),
+                                border: Border.all(
+                                  color:
+                                      const Color(0xFF2969FF).withOpacity(0.1),
+                                  width: 12,
+                                ),
                               ),
-                              style: ElevatedButton.styleFrom(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 16),
-                                textStyle: const TextStyle(fontSize: 16),
-                                backgroundColor: Colors.blue[700],
-                                foregroundColor: Colors.white,
+                              child: ElevatedButton.icon(
+                                onPressed: () {
+                                  setState(() {
+                                    _currentSection++;
+                                  });
+                                },
+                                icon: const Icon(Icons.arrow_forward),
+                                label: const Text(
+                                  'Tiếp tục',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                  padding:const EdgeInsets.symmetric(vertical: 16),
+                                  textStyle: const TextStyle(fontSize: 16),
+                                  backgroundColor: const Color(0xFF2969FF),
+                                  foregroundColor: Colors.white,
+                                  elevation: 0,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(14),
+                                  ),
+                                ),
                               ),
                             ),
                           ),
                         ),
                       if (_currentSection == _sectionTitles.length - 1)
                         Expanded(
-                          child: ElevatedButton.icon(
-                            onPressed: _isLoading ? null : _predictScore,
-                            icon: _isLoading
-                                ? const SizedBox(
-                                    width: 20,
-                                    height: 20,
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 2,
-                                      valueColor: AlwaysStoppedAnimation<Color>(
-                                          Colors.white),
-                                    ),
-                                  )
-                                : const Icon(Icons.analytics),
-                            label: const Text(
-                              'Dự đoán điểm',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            style: ElevatedButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(vertical: 16),
-                              textStyle: const TextStyle(fontSize: 16),
-                              backgroundColor: Colors.blue[700],
-                              foregroundColor: Colors.white,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 8),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(24),
+                                border: Border.all(
+                                  color:
+                                      const Color(0xFF2969FF).withOpacity(0.1),
+                                  width: 12,
+                                ),
+                              ),
+                              child: ElevatedButton.icon(
+                                onPressed: _isLoading ? null : _predictScore,
+                                icon: _isLoading
+                                    ? const SizedBox(
+                                        width: 20,
+                                        height: 20,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                          valueColor:
+                                              AlwaysStoppedAnimation<Color>(
+                                                  Colors.white),
+                                        ),
+                                      )
+                                    : Image.asset('assets/icons/score.png', width: 24, height: 24),
+                                label: const Text(
+                                  'Dự đoán điểm',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 16),
+                                  textStyle: const TextStyle(fontSize: 16),
+                                  backgroundColor: const Color(0xFF2969FF),
+                                  foregroundColor: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(11.78),
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
                         ),
@@ -372,17 +470,41 @@ class _ManualInputScreenState extends State<ManualInputScreen> {
     );
   }
 
+  Widget _getIconForTitle(String title) {
+    switch (title) {
+      case 'Thông tin cơ bản':
+        return Image.asset('assets/icons/user.png', width: 32, height: 32);
+      case 'Thông tin gia đình':
+        return Image.asset('assets/icons/family.png', width: 32, height: 32);
+      case 'Thông tin học tập':
+        return Image.asset('assets/icons/study.png', width: 32, height: 32);
+      case 'Thông tin khác':
+        return Image.asset('assets/icons/other.png', width: 32, height: 32);
+      case 'Điểm số':
+        return Image.asset('assets/icons/score.png', width: 32, height: 32);
+      default:
+        return const Icon(Icons.help,
+            color: Color(0xFF2969FF)); // Biểu tượng mặc định
+    }
+  }
+
   Widget _buildSection(String title, List<Widget> children) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          title,
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-            color: Colors.blue[800],
-          ),
+        Row(
+          children: [
+            _getIconForTitle(title), // Gọi hàm để lấy biểu tượng
+            const SizedBox(width: 8), // Khoảng cách giữa biểu tượng và văn bản
+            Text(
+              title,
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+                color: Color(0xFF2969FF),
+              ),
+            ),
+          ],
         ),
         const SizedBox(height: 16),
         ...children,
@@ -402,41 +524,51 @@ class _ManualInputScreenState extends State<ManualInputScreen> {
         children: [
           Text(
             label,
-            style: TextStyle(
-              color: Colors.blue[800],
-              fontSize: 16,
+            style: const TextStyle(
+              color: Colors.black,
+              fontSize: 14,
             ),
           ),
-          ToggleButtons(
-            direction: Axis.horizontal,
-            onPressed: (int index) {
-              onChanged(options.keys.elementAt(index));
-            },
-            borderRadius: const BorderRadius.all(Radius.circular(8)),
-            selectedBorderColor: Colors.blue[700],
-            selectedColor: Colors.white,
-            fillColor: Colors.blue[700],
-            color: Colors.blue[400],
-            constraints: const BoxConstraints(
-              minHeight: 40.0,
-              minWidth: 80.0,
+          Container(
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: const Color(0xFF2969FF).withOpacity(0.1),
+                width: 8,
+              ),
+              borderRadius: BorderRadius.circular(24), // Bo góc
             ),
-            isSelected: isSelected,
-            children: options.values
-                .map(
-                  (text) => Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Text(
-                      text,
-                      style: TextStyle(
-                        color: isSelected[options.values.toList().indexOf(text)]
-                            ? Colors.white
-                            : Colors.blue[800],
+            child: ToggleButtons(
+              direction: Axis.horizontal,
+              onPressed: (int index) {
+                onChanged(options.keys.elementAt(index));
+              },
+              borderRadius: const BorderRadius.all(Radius.circular(14)),
+              selectedBorderColor: const Color(0xFF2969FF),
+              selectedColor: Colors.white,
+              fillColor: const Color(0xFF2969FF),
+              color: const Color(0xFF2969FF),
+              constraints: const BoxConstraints(
+                minHeight: 40.0,
+                minWidth: 80.0,
+              ),
+              isSelected: isSelected,
+              children: options.values
+                  .map(
+                    (text) => Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Text(
+                        text,
+                        style: TextStyle(
+                          color:
+                              isSelected[options.values.toList().indexOf(text)]
+                                  ? Colors.white
+                                  : const Color(0xFF2969FF),
+                        ),
                       ),
                     ),
-                  ),
-                )
-                .toList(),
+                  )
+                  .toList(),
+            ),
           ),
         ],
       ),
@@ -569,7 +701,7 @@ class _ManualInputScreenState extends State<ManualInputScreen> {
   Widget _buildCurrentSection() {
     switch (_currentSection) {
       case 0:
-        return _buildSection('👤 Thông tin cơ bản', [
+        return _buildSection('Thông tin cơ bản', [
           _buildToggleField(
             'Trường',
             _school,
@@ -603,7 +735,7 @@ class _ManualInputScreenState extends State<ManualInputScreen> {
           ),
         ]);
       case 1:
-        return _buildSection('👨‍👩‍👧‍👦 Thông tin gia đình', [
+        return _buildSection('Thông tin gia đình', [
           _buildToggleField(
             'Trình độ học vấn của mẹ',
             _meduController.text,
@@ -660,7 +792,7 @@ class _ManualInputScreenState extends State<ManualInputScreen> {
           ),
         ]);
       case 2:
-        return _buildSection('📚 Thông tin học tập', [
+        return _buildSection('Thông tin học tập', [
           _buildToggleField(
             'Thời gian di chuyển đến trường',
             _traveltimeController.text,
@@ -714,7 +846,7 @@ class _ManualInputScreenState extends State<ManualInputScreen> {
           ),
         ]);
       case 3:
-        return _buildSection('🎯 Thông tin khác', [
+        return _buildSection('Thông tin khác', [
           _buildToggleField(
             'Hoạt động ngoại khóa',
             _activities,
@@ -831,12 +963,12 @@ class _ManualInputScreenState extends State<ManualInputScreen> {
           ),
         ]);
       case 4:
-        return _buildSection('📊 Điểm số', [
+        return _buildSection('Điểm số', [
           const Text(
             'Hãy nhập điểm của hai kỳ trước để dự đoán điểm kỳ này',
             style: TextStyle(
               fontSize: 16,
-              color: Colors.grey,
+              color: Color(0xFF2969FF),
               height: 1.5,
             ),
           ),
@@ -845,26 +977,24 @@ class _ManualInputScreenState extends State<ManualInputScreen> {
             children: [
               Expanded(
                 child: Card(
-                  elevation: 4,
+                  elevation: 2,
+                  color: Colors.white,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(32),
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(20),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
+                        const Row(
                           children: [
-                            Icon(Icons.score,
-                                color: Colors.blue[700], size: 24),
-                            const SizedBox(width: 8),
                             Text(
                               'Kỳ 1',
                               style: TextStyle(
                                 fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.blue[800],
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xFF2969FF),
                               ),
                             ),
                           ],
@@ -872,31 +1002,29 @@ class _ManualInputScreenState extends State<ManualInputScreen> {
                         const SizedBox(height: 16),
                         Container(
                           decoration: BoxDecoration(
-                            color: Colors.blue[50],
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: Colors.blue[200]!),
+                            color: const Color(0xFF2969FF).withOpacity(0.05),
+                            borderRadius: BorderRadius.circular(24),
+                            border: Border.all(color: const Color(0xFF2969FF)),
                           ),
                           child: TextField(
                             controller: _g1Controller,
                             keyboardType: TextInputType.number,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.blue[900],
+                              fontWeight: FontWeight.w500,
+                              color: Color(0xFF2969FF),
                             ),
                             textAlign: TextAlign.center,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               hintText: '0-20',
                               border: InputBorder.none,
-                              contentPadding: const EdgeInsets.symmetric(
+                              contentPadding: EdgeInsets.symmetric(
                                 horizontal: 16,
                                 vertical: 16,
                               ),
                               suffixText: '/20',
                               suffixStyle: TextStyle(
-                                fontSize: 16,
-                                color: Colors.blue[400],
-                              ),
+                                  fontSize: 16, color: Color(0xFF2969FF)),
                             ),
                           ),
                         ),
@@ -908,26 +1036,24 @@ class _ManualInputScreenState extends State<ManualInputScreen> {
               const SizedBox(width: 16),
               Expanded(
                 child: Card(
-                  elevation: 4,
+                  elevation: 2,
+                  color: Colors.white,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(32),
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(20),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
+                        const Row(
                           children: [
-                            Icon(Icons.score,
-                                color: Colors.green[700], size: 24),
-                            const SizedBox(width: 8),
                             Text(
                               'Kỳ 2',
                               style: TextStyle(
                                 fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.green[800],
+                                fontWeight: FontWeight.w600,
+                                color: Color.fromRGBO(52, 199, 89, 1),
                               ),
                             ),
                           ],
@@ -935,30 +1061,32 @@ class _ManualInputScreenState extends State<ManualInputScreen> {
                         const SizedBox(height: 16),
                         Container(
                           decoration: BoxDecoration(
-                            color: Colors.green[50],
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: Colors.green[200]!),
+                            color: const Color.fromRGBO(52, 199, 89, 1)
+                                .withOpacity(0.05),
+                            borderRadius: BorderRadius.circular(24),
+                            border: Border.all(
+                                color: const Color.fromRGBO(52, 199, 89, 1)),
                           ),
                           child: TextField(
                             controller: _g2Controller,
                             keyboardType: TextInputType.number,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.green[900],
+                              fontWeight: FontWeight.w500,
+                              color: Color.fromRGBO(52, 199, 89, 1),
                             ),
                             textAlign: TextAlign.center,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               hintText: '0-20',
                               border: InputBorder.none,
-                              contentPadding: const EdgeInsets.symmetric(
+                              contentPadding: EdgeInsets.symmetric(
                                 horizontal: 16,
                                 vertical: 16,
                               ),
                               suffixText: '/20',
                               suffixStyle: TextStyle(
                                 fontSize: 16,
-                                color: Colors.green[400],
+                                color: Color.fromRGBO(52, 199, 89, 1),
                               ),
                             ),
                           ),
@@ -984,16 +1112,18 @@ class _ManualInputScreenState extends State<ManualInputScreen> {
         children: [
           Text(
             label,
-            style: TextStyle(
-              color: Colors.blue[800],
+            style: const TextStyle(
+              color: Colors.black,
               fontSize: 16,
             ),
           ),
           Container(
             decoration: BoxDecoration(
-              color: Colors.blue[50],
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: Colors.blue[600]!),
+              borderRadius: BorderRadius.circular(24),
+              border: Border.all(
+                color: const Color(0xFF2969FF).withOpacity(0.1),
+                width: 8,
+              ),
             ),
             child: InkWell(
               onTap: () {
@@ -1032,21 +1162,29 @@ class _ManualInputScreenState extends State<ManualInputScreen> {
                   ),
                 );
               },
-              child: Padding(
+              child: Container(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(18),
+                ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
                       '${controller.text} tuổi',
-                      style: TextStyle(
-                        color: Colors.blue[800],
-                        fontSize: 16,
+                      style: const TextStyle(
+                        color: Color(0xFF2969FF),
+                        fontSize: 14,
                       ),
                     ),
                     const SizedBox(width: 8),
-                    Icon(Icons.edit, color: Colors.blue[800], size: 20),
+                    const Icon(
+                      Icons.edit,
+                      color: Color(0xFF2969FF),
+                      size: 20,
+                    ),
                   ],
                 ),
               ),
