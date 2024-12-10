@@ -119,8 +119,8 @@ Dưới đây là một số ảnh chụp màn hình của ứng dụng:
 - **Bước 2:** Clone repository:
   
     ```bash
-    git clone https://github.com/petervlu/DoAnUngDung_2
-    cd doanlaptrinh
+    git clone https://github.com/AlexCyberlead/DoAnUngDung_2
+    cd DoAnUngDung_2
     ```
 
 - **Bước 3:** Cài đặt dependencies cho dự án:
